@@ -9,6 +9,8 @@ RUN apt update \
 	sqlite \
 	curl \
 	libmojo-sqlite-perl \
+	libmojo-pg-perl \
+	libmariadbd-dev \
 	libpq-dev \
 	git \
 	build-essential \
