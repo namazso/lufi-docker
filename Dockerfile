@@ -10,7 +10,6 @@ RUN apt update \
 	curl \
 	libmojo-sqlite-perl \
 	libmojo-pg-perl \
-	libmariadbd-dev \
 	libpq-dev \
 	git \
 	build-essential \
@@ -24,7 +23,7 @@ RUN cpan Carton
 COPY lufi /lufi
 WORKDIR /lufi
 
-RUN carton install --deployment --without=test
+RUN carton install --deployment --without=test --without=mysql
 RUN mkdir -p /files
 
 COPY run.sh .
