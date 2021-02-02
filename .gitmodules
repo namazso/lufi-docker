@@ -1,0 +1,3 @@
+[submodule "lufi"]
+	path = lufi
+	url = https://framagit.org/fiat-tux/hat-softwares/lufi.git

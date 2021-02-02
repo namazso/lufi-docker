@@ -1,6 +1,6 @@
 FROM debian:buster
 
-MAINTAINER Dirk Reher <dirk@reher.me>
+MAINTAINER namazso <admin@namazso.eu>
 
 USER root
 
@@ -19,26 +19,16 @@ RUN apt update \
 
 RUN cpan Carton
 
-RUN git clone https://framagit.org/fiat-tux/hat-softwares/lufi.git --depth 1
+COPY lufi /lufi
 WORKDIR /lufi
 
-RUN carton install --deployment --without=test --without=postgresql --without=mysql --without=ldap --without=htpasswd
-RUN mkdir -p /files/database
+RUN carton install --deployment --without=test
+RUN mkdir -p /files
 
-COPY lufi.conf /lufi/
 COPY run.sh .
 
 VOLUME ["/files"]
 
 CMD /bin/bash run.sh
-
-ENV contact "<a href= 'example.com'>here</a>"
-ENV report "abc@example.com"
-ENV site_name "lufi"
-ENV url_length 4
-ENV max_file_size 104857600
-ENV max_delay 0
-ENV use_proxy 0
-ENV allow_pwd 1
 
 HEALTHCHECK CMD curl --fail http://127.0.0.1:8081/ || exit 1

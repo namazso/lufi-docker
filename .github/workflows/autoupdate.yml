@@ -1,0 +1,33 @@
+name: autoupdate
+
+on:
+  schedule:
+  - cron:  '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: autoupdate
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        submodules: recursive
+          
+    - name: Update submodules
+      run: |
+        git config --global user.email "8676443+submodule-update@users.noreply.github.com"
+        git config --global user.name "Submodule Update Action"
+        git submodule foreach "git fetch --all -p"
+        git submodule foreach "git merge origin"
+        git add -v .
+        git commit -m "bumping submodules" || exit 0
+        
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
